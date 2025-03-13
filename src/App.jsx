@@ -1,11 +1,13 @@
 import './App.css'
-import MovieDB from './MovieDB'
+import MainPage from '../src/MainFiles/MainMoviePage.jsx/MainPage.jsx'
+
 
 function App() {
 
   return (
     <>
-    <MovieDB></MovieDB>
+    
+    <MainPage />
      
     </>
   )
