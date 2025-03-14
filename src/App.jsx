@@ -1,15 +1,11 @@
-import './App.css'
-import MainPage from '../src/MainFiles/MainMoviePage.jsx/MainPage.jsx'
-
+import React from 'react'
+import MainPage from './MainFiles/MainMoviePage.jsx/MainPage'
 
 function App() {
-
   return (
-    <>
-    
-    <MainPage />
-     
-    </>
+    <div>
+      <MainPage />
+    </div>
   )
 }
 
