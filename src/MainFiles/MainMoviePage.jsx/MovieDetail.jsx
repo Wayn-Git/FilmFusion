@@ -63,7 +63,7 @@ export default function MovieDetails() {
     <div className="min-h-screen bg-gray-900">
       {/* Hero Section with Backdrop */}
       <div 
-        className="relative w-full h-96 lg:h-[500px] bg-cover bg-center"
+        className="relative w-full h-[400px] sm:h-96 lg:h-[500px] bg-cover bg-center"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
         }}
@@ -72,9 +72,9 @@ export default function MovieDetails() {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-transparent"></div>
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative h-full flex items-end">
-          <div className="pb-10 flex flex-col md:flex-row items-start gap-8 w-full">
+          <div className="pb-6 sm:pb-10 flex flex-col md:flex-row items-start gap-6 sm:gap-8 w-full">
             {/* Poster */}
-            <div className="w-48 sm:w-64 flex-shrink-0 rounded-lg overflow-hidden shadow-2xl border-2 border-white/10 transform -translate-y-16">
+            <div className="w-46 sm:w-48 md:w-64 flex-shrink-0 rounded-lg overflow-hidden shadow-2xl border-2 border-white/10 transform -translate-y-10 sm:-translate-y-16 mx-auto md:mx-0">
               <img 
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                 alt={movie.title} 
@@ -82,8 +82,8 @@ export default function MovieDetails() {
               />
             </div>
             
-            {/* Movie Info */}
-            <div className="text-white flex-1 ">
+            {/* Movie Info - Hidden on mobile, will show in content section below */}
+            <div className="text-white flex-1 hidden md:block">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">{movie.title}</h1>
               <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
                 <span className="bg-white/10 px-3 py-1 rounded-full">{movie.release_date?.split('-')[0]}</span>
@@ -112,6 +112,38 @@ export default function MovieDetails() {
               </Link>
             </div>
           </div>
+        </div>
+      </div>
+      
+      {/* Mobile Movie Info - Visible only on mobile */}
+      <div className="md:hidden bg-gray-900 px-4 sm:px-6 py-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-white text-center">{movie.title}</h1>
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-4 text-sm text-white">
+          <span className="bg-white/10 px-3 py-1 rounded-full">{movie.release_date?.split('-')[0]}</span>
+          <span className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-yellow-500 mr-1">
+              <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+            </svg>
+            {movie.vote_average?.toFixed(1)}
+          </span>
+          <span>{movie.runtime} min</span>
+        </div>
+        
+        {/* Genres */}
+        <div className="flex flex-wrap gap-2 mb-4 justify-center">
+          {movie.genres?.map(genre => (
+            <span key={genre.id} className="bg-white/10 px-3 py-1 rounded-full text-xs text-white">
+              {genre.name}
+            </span>
+          ))}
+        </div>
+        
+        <p className="text-gray-300 mb-6 text-sm">{movie.overview}</p>
+        
+        <div className="flex justify-center">
+          <Link to="/" className="inline-block bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg transition-colors duration-200">
+            Back to Home
+          </Link>
         </div>
       </div>
       
