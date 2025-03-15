@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import MovieCarousel from "./MovieCarousel.jsx";
 import SearchResults from "./SearchResults.jsx";
+import { Link, useLocation } from "react-router-dom";
 
 export default function MainPage() {
   // State declarations
@@ -14,6 +15,8 @@ export default function MainPage() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showScrollBottom, setShowScrollBottom] = useState(true);
   const searchTimeoutRef = useRef(null);
+
+
 
   // API Configuration
   const apiKey = "95a6b55b1e3846e956fd68b1ba23bbe7";
@@ -230,6 +233,40 @@ export default function MainPage() {
     </div>
   );
 
+  // Add this MovieCard component inside the MainPage component but before the return statement
+  const MovieCard = ({ movie }) => {
+    return (
+      <Link to={`/movie/${movie.id}`} className="group">
+        <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+          {movie.poster_path ? (
+            <img 
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+              alt={movie.title}
+              className="w-full h-64 object-cover" 
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-64 bg-gray-700 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-gray-500">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+            </div>
+          )}
+          <div className="p-4">
+            <h3 className="text-white font-medium line-clamp-1">{movie.title}</h3>
+            <div className="flex items-center mt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-yellow-500 mr-1">
+                <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+              </svg>
+              <span className="text-gray-400 text-sm">{movie.vote_average?.toFixed(1)}</span>
+            </div>
+            <p className="text-gray-400 text-sm mt-2 line-clamp-2">{movie.release_date?.split('-')[0]}</p>
+          </div>
+        </div>
+      </Link>
+    );
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 transition-colors duration-200">
       {/* Header Section */}
@@ -372,8 +409,9 @@ export default function MainPage() {
         <SectionHeader title="Upcoming" />
         <div className="px-4 sm:px-6 py-4 flex gap-4 overflow-x-auto snap-x">
           {upcomingMovies.map((movie) => (
-            <div
+            <Link
               key={movie.id}
+              to={`/movie/${movie.id}`}
               className="flex-shrink-0 snap-start bg-white rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl w-48 sm:w-56"
             >
               <img
@@ -397,12 +435,12 @@ export default function MainPage() {
                   <span className="text-xs sm:text-sm font-bold text-yellow-500">
                     ⭐ {movie.vote_average?.toFixed(1) || "N/A"}
                   </span>
-                  <button className="text-blue-600 hover:text-blue-800 text-xs sm:text-sm font-semibold">
+                  <span className="text-blue-600 hover:text-blue-800 text-xs sm:text-sm font-semibold">
                     Details →
-                  </button>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -412,8 +450,9 @@ export default function MainPage() {
         <SectionHeader title="Top Rated" />
         <div className="px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 py-4 gap-3 sm:gap-4">
           {topRatedMovies.map((movie) => (
-            <div
+            <Link
               key={movie.id}
+              to={`/movie/${movie.id}`}
               className="bg-white rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl w-full"
             >
               <img
@@ -437,12 +476,12 @@ export default function MainPage() {
                   <span className="text-xs sm:text-sm font-bold text-yellow-500">
                     ⭐ {movie.vote_average?.toFixed(1) || "N/A"}
                   </span>
-                  <button className="text-blue-600 hover:text-blue-800 text-xs sm:text-sm font-semibold">
+                  <span className="text-blue-600 hover:text-blue-800 text-xs sm:text-sm font-semibold">
                     Details →
-                  </button>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

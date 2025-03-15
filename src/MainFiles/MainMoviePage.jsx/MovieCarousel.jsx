@@ -1,5 +1,6 @@
 // File: DemoCarousel.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -52,9 +53,12 @@ export default function MovieCarousel({ movies = [] }) {
               <p className="line-clamp-3 text-lg max-w-2xl">
                 {movie.overview}
               </p>
-              <button className="mt-4 bg-red-600 hover:bg-red-700 px-6 py-2 rounded font-semibold transition-colors">
+              <Link 
+                to={`/movie/${movie.id}`} 
+                className="mt-4 inline-block bg-red-600 hover:bg-red-700 px-6 py-2 rounded font-semibold transition-colors"
+              >
                 View Details
-              </button>
+              </Link>
             </div>
           </div>
         ))}

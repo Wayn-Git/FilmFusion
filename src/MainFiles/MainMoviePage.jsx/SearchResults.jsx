@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function SearchResults({ results, onClose }) {
   if (!results || results.length === 0) {
@@ -122,9 +123,13 @@ export default function SearchResults({ results, onClose }) {
                     </svg>
                     {movie.vote_average?.toFixed(1) || 'N/A'}
                   </span>
-                  <button className="text-white/60 hover:text-white text-sm font-medium transition-colors duration-200">
+                  <Link 
+                    to={`/movie/${movie.id}`} 
+                    onClick={onClose}
+                    className="text-white/60 hover:text-white text-sm font-medium transition-colors duration-200"
+                  >
                     View Details →
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
