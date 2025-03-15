@@ -83,7 +83,7 @@ export default function MovieDetails() {
             </div>
             
             {/* Movie Info */}
-            <div className="text-white flex-1">
+            <div className="text-white flex-1 ">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">{movie.title}</h1>
               <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
                 <span className="bg-white/10 px-3 py-1 rounded-full">{movie.release_date?.split('-')[0]}</span>
