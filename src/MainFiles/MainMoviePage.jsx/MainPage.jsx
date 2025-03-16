@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import MovieCarousel from "./MovieCarousel.jsx";
 import SearchResults from "./SearchResults.jsx";
 import { Link, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 export default function MainPage() {
   // State declarations
@@ -15,6 +17,8 @@ export default function MainPage() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showScrollBottom, setShowScrollBottom] = useState(true);
   const searchTimeoutRef = useRef(null);
+
+
 
 
 
@@ -139,14 +143,14 @@ export default function MainPage() {
   // Component Sections
   const NavLinks = () => (
     <ul className="hidden md:flex gap-8 text-lg justify-center">
-      <NavItem icon="home" label="Home" />
-      <NavItem icon="movie" label="Movies" />
-      <NavItem icon="tv" label="TV Shows" />
-      <NavItem icon="wishlist" label="Wishlist" />
+      <NavItem to="/" icon="home" label="Home" />
+      <NavItem to="/movies" icon="movie" label="Movies" />
+      <NavItem to="/tv-shows" icon="tv" label="TV Shows" />
+      <NavItem to="/wishlist" icon="wishlist" label="Wishlist" />
     </ul>
   );
 
-  const NavItem = ({ icon, label }) => {
+  const NavItem = ({ icon, label, to }) => {
     const iconElement = {
       home: (
         <svg
@@ -216,10 +220,17 @@ export default function MainPage() {
 
     return (
       <li className="px-3">
-        <button className="text-gray-300 hover:text-white text-base flex items-center transition-colors duration-200">
-          {iconElement[icon]}
-          {label}
-        </button>
+        {to ? (
+          <Link to={to} className="text-gray-300 hover:text-white text-base flex cursor-pointer items-center transition-colors duration-200">
+            {iconElement[icon]}
+            {label}
+          </Link>
+        ) : (
+          <button className="text-gray-300 hover:text-white text-base flex cursor-pointer items-center transition-colors duration-200">
+            {iconElement[icon]}
+            {label}
+          </button>
+        )}
       </li>
     );
   };
@@ -276,7 +287,7 @@ export default function MainPage() {
             {/* Logo */}
             <div className="logo mb-4 sm:mb-0">
               <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                MovieDB
+              FilmFusion
               </h1>
             </div>
 
@@ -284,7 +295,7 @@ export default function MainPage() {
             <NavLinks />
 
             {/* Search and Theme Toggle */}
-            <div className="flex items-center gap-4 w-full sm:w-auto">
+            <div className="flex items-center gap-4 w-full sm:w-auto cursor-pointer ">
               <form onSubmit={handleSearchSubmit} className="relative flex-1 sm:flex-none">
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
@@ -379,16 +390,36 @@ export default function MainPage() {
           </button>
           <ul className="flex flex-col gap-8 text-2xl">
             <li className="hover:text-gray-400 cursor-pointer transition-colors duration-200">
-              Home
+              <Link to="/" className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+                Home
+              </Link>
             </li>
             <li className="hover:text-gray-400 cursor-pointer transition-colors duration-200">
-              Movies
+              <Link to="/movies" className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 0h-1.5m-1.5 0h-7.5m-1.5 0h-1.5m7.5 0v-1.5c0-.621.504-1.125 1.125-1.125M7.5 15h1.5m-1.5 0v-1.5c0-.621.504-1.125 1.125-1.125M7.5 15v1.5c0 .621.504 1.125 1.125 1.125M7.5 12h7.5m-7.5 3h7.5m-7.5 0v3m0-3h7.5m-7.5 0v-3m-6 3h1.5m-1.5 0v-3m0 0h1.5m-1.5 0v-3m0 0h1.5" />
+                </svg>
+                Movies
+              </Link>
             </li>
             <li className="hover:text-gray-400 cursor-pointer transition-colors duration-200">
-              TV Shows
+              <Link to="/tv-shows" className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z" />
+                </svg>
+                TV Shows
+              </Link>
             </li>
             <li className="hover:text-gray-400 cursor-pointer transition-colors duration-200">
-              Wishlist
+              <Link to="/wishlist" className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+                Wishlist
+              </Link>
             </li>
           </ul>
         </div>
@@ -550,26 +581,26 @@ export default function MainPage() {
             {/* Quick Links */}
             <div>
               <h4 className="text-white font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2 cursor-pointer">
                 <li>
-                  <a href="#" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
+                  <Link to="/" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
+                  <Link to="/movies" className="text-white/60 hover:text-white cursor-pointer transition-colors duration-200 text-sm">
                     Movies
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
+                  <Link to="/tv-shows" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
                     TV Shows
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
+                  <Link to="/wishlist" className="text-white/60 hover:text-white transition-colors duration-200 text-sm">
                     Wishlist
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
