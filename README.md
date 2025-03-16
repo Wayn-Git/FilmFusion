@@ -1,4 +1,4 @@
-# 🎬 MovieDB Project
+# 🎬 FilmFusion Project
 
 A modern web application for browsing and discovering movies using The Movie Database API.
 
