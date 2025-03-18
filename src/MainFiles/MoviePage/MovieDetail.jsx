@@ -61,6 +61,7 @@ export default function MovieDetail() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [cast, setCast] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
   const apiKey = "95a6b55b1e3846e956fd68b1ba23bbe7";
@@ -69,29 +70,63 @@ export default function MovieDetail() {
     async function fetchMovieDetails() {
       try {
         setLoading(true);
+        setError(null);
+        
+        // Fetch movie details with additional headers
+        const options = {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        };
+
+        console.log(`Fetching movie details for ID: ${id}`);
         
         // Fetch movie details
         const movieResponse = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=videos,images`
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=videos,images`,
+          options
         );
+
+        if (!movieResponse.ok) {
+          throw new Error(`HTTP error! status: ${movieResponse.status}`);
+        }
+        
         const movieData = await movieResponse.json();
+        console.log('Movie data received:', movieData);
         setMovie(movieData);
         
         // Fetch cast
         const creditsResponse = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
+          `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`,
+          options
         );
+
+        if (!creditsResponse.ok) {
+          throw new Error(`HTTP error! status: ${creditsResponse.status}`);
+        }
+
         const creditsData = await creditsResponse.json();
-        setCast(creditsData.cast.slice(0, 10)); // Get top 10 cast members
+        console.log('Credits data received:', creditsData);
+        setCast(creditsData.cast.slice(0, 10));
         
         // Fetch similar movies
         const similarResponse = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${apiKey}&page=1`
+          `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${apiKey}&page=1`,
+          options
         );
+
+        if (!similarResponse.ok) {
+          throw new Error(`HTTP error! status: ${similarResponse.status}`);
+        }
+
         const similarData = await similarResponse.json();
-        setSimilarMovies(similarData.results.slice(0, 6)); // Get top 6 similar movies
+        console.log('Similar movies data received:', similarData);
+        setSimilarMovies(similarData.results.slice(0, 6));
       } catch (error) {
         console.error("Error fetching movie details:", error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -120,13 +155,32 @@ export default function MovieDetail() {
     });
   };
   
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-900">
+        <Header />
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h2 className="text-2xl text-white mb-4">Error loading movie information</h2>
+          <p className="text-red-400 mb-4">{error}</p>
+          <Link to="/movies" className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg">
+            Back to Movies
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <Header />
       
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-white/10 border-t-white/60"></div>
+        <div className="container mx-auto px-4 py-16 text-center">
+          <div className="flex flex-col items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white/10 border-t-white/60 mb-4"></div>
+            <p className="text-white">Loading movie information...</p>
+            <p className="text-gray-400 text-sm mt-2">Movie ID: {id}</p>
+          </div>
         </div>
       ) : movie ? (
         <>
