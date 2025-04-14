@@ -5,6 +5,7 @@ import MoviePage from "./MainFiles/MoviePage/MoviePage.jsx";
 import MovieDetail from "./MainFiles/MoviePage/MovieDetail.jsx";
 import TVShowsPage from "./MainFiles/TVShowsPage/TVShowsPage.jsx";
 import TVShowDetail from "./MainFiles/TVShowsPage/TVShowDetail.jsx";
+import WishlistPage from "./MainFiles/WishlistPage/WishlistPage.jsx";
 
 import "./App.css";
 
@@ -17,7 +18,7 @@ function App() {
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/tv-shows" element={<TVShowsPage />} />
         <Route path="/tv-show/:id" element={<TVShowDetail />} />
-        <Route path="/wishlist" element={<MainPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="*" element={<MainPage />} />
       </Routes>
     </Router>
