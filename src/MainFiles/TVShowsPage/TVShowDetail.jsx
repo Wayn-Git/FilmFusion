@@ -159,7 +159,7 @@ export default function TVShowDetail() {
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-indigo-950 to-gray-900">
-      <Header />
+      <Header withSearch={true} />
       
       {loading ? (
         <div className="flex justify-center items-center h-64">

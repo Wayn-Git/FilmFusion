@@ -252,7 +252,7 @@ export default function MovieDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-indigo-950 to-gray-900">
-      <Header />
+      <Header withSearch={true} />
       
       {loading ? (
         <div className="container mx-auto px-4 py-16 text-center">
